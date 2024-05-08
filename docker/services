@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v $(pwd)/ny_taxi_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:13
+
+  docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v /Users/vehere/Desktop/Personal/Hrashikesh/datazoomcamp/docker/new_ny_taxi_data/new_ny_taxi_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:latest
+
+
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v /Users/vehere/Desktop/Personal/Hrashikesh/datazoomcamp/docker/new_ny_taxi_data/new_ny_taxi_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  --network=pg-network \
+  --name mypg \
+  postgres:latest
+
+
+docker run dpage/pgadmin4
+
+
+docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="hrashikesh@gmail.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -p 8080:80 \
+  --network=pg-network \
+  --name mypgadmin \
+  dpage/pgadmin4
