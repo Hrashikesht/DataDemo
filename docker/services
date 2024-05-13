@@ -42,7 +42,7 @@ docker run -it \
   postgres:latest
 
 
-docker run dpage/pgadmin4
+docker run dpage/pgadmin4ak
 
 
 docker run -it \
@@ -52,3 +52,14 @@ docker run -it \
   --network=pg-network \
   --name mypgadmin \
   dpage/pgadmin4
+
+url="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet"
+
+python3.10 Docker/pipeline.py \
+--User=root \
+--Password=root \
+--Host=localhost \
+--Port=5432 \
+--DbName=ny_taxi \
+--TableName=ny_taxii_data \
+--Url ${url}
